@@ -1,32 +1,68 @@
-# Visual Studio 编译/缓存/配置文件
-.vs/
+# ==============================================
+# 🔥 C++ / Visual Studio 项目专用过滤
+# ==============================================
+
+# Visual Studio 编译目录
 x64/
-build/
-output/
+Debug/
+Release/
+x86/
+ipch/
+.vs/
 *.sln
 *.vcxproj
 *.vcxproj.filters
-*.user
-*.tlog
+*.vcxproj.user
+*.aps
+*.res
+*.rc
+
+# 编译产物
 *.obj
-*.pdb
-*.idb
-
-# VS Code 配置文件
-.vscode/
-
-# 可执行文件/编译产物
 *.exe
-*.out
-*.a
-*.so
+*.pdb
+*.ilk
+*.exp
+*.lib
 *.dll
+*.o
+*.out
+*.app
+*.so
+*.a
 
-# 日志/临时文件
+# 日志与临时文件
 *.log
+*.tlog
+*.idb
 *.tmp
 *.temp
+*.cache
 
-# 系统文件
-Thumbs.db
+# ==============================================
+# 🔥 CMake 构建过滤
+# ==============================================
+build/
+cmake-build-*/
+CMakeFiles/
+CMakeCache.txt
+Makefile
+cmake_install.cmake
+install_manifest.txt
+*.cmake
+
+# ==============================================
+# 🔥 编辑器 / IDE 配置
+# ==============================================
+.vscode/
+.idea/
+*.swp
+*~
 .DS_Store
+Thumbs.db
+
+# ==============================================
+# 🔥 Git 自身
+# ==============================================
+.git/
+.gitattributes

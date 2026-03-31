@@ -1,3 +1,0 @@
-E:/cpp_learning/cpplearnplus/build/CMakeFiles/main.dir
-E:/cpp_learning/cpplearnplus/build/CMakeFiles/edit_cache.dir
-E:/cpp_learning/cpplearnplus/build/CMakeFiles/rebuild_cache.dir

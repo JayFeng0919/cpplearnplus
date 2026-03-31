@@ -1,6 +1,0 @@
-﻿  main.cpp
-  vector.cpp
-E:\cpp_learning\cpplearnplus\vector.cpp(74,12): warning C4244: “参数”: 从“time_t”转换到“unsigned int”，可能丢失数据
-  正在生成代码...
-  LINK : 没有找到 E:\cpp_learning\cpplearnplus\x64\Debug\cpplearnplus.exe 或上一个增量链接没有生成它；正在执行完全链接
-  cpplearnplus.vcxproj -> E:\cpp_learning\cpplearnplus\x64\Debug\cpplearnplus.exe

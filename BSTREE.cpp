@@ -2,7 +2,7 @@
 
 BSTREE::BSTREE():root_(nullptr){}
 
-BSTREE::~BSTREE(){}
+BSTREE::~BSTREE() { destroy(root_); }
 
 int BSTREE::high() {
 	return high(root_);
@@ -344,6 +344,15 @@ void BSTREE::n_levelorder() {
 		}
 	}
 	std::cout << std::endl;
+}
+
+void::BSTREE::destroy(Node* node) {
+	if (!node)
+		return;
+	destroy(node->left_);
+	destroy(node->right_);
+	delete node;
+	node = nullptr;
 }
 
 void BSTREE::findValues(std::vector<int>& vec, const int& i, const int& j) {

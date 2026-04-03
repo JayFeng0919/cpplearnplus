@@ -57,7 +57,8 @@ private:
 		Node* right_;
 	};
 
-	int high(Node* node);
+	void destroy(Node *node);
+	int high(Node *node);
 	int number(Node* node);
 	Node* insert(Node* node, const int& val);
 	Node* remove(Node* node, const int& val);

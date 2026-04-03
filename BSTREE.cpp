@@ -146,9 +146,9 @@ void BSTREE::inorder() {
 void BSTREE::inorder(Node* node) {
 	if (!node)
 		return;
-	preorder(node->left_);
+	inorder(node->left_);
 	std::cout << node->data_ << " ";
-	preorder(node->right_);
+	inorder(node->right_);
 }
 
 void BSTREE::postorder() {
@@ -159,8 +159,8 @@ void BSTREE::postorder() {
 void BSTREE::postorder(Node* node) {
 	if (!node)
 		return;
-	preorder(node->left_);
-	preorder(node->right_);
+	postorder(node->left_);
+	postorder(node->right_);
 	std::cout << node->data_ << " ";
 }
 

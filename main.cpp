@@ -27,8 +27,7 @@ int main(){
 	// linked::testHashTable();
 	// testBigData1();
 	// testBST1();
-	testAVL();
-	testRBTree();
+	// testAVL();
 
 
 	return 0;

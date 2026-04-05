@@ -10,7 +10,6 @@
 #include"BST.h"
 #include"BSTREE.h"
 #include"AVL.h"
-#include"RBTREE.h"
 
 int main(){
 	// testvector();

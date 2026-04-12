@@ -1,4 +1,4 @@
-﻿#include<iostream>
+#include<iostream>
 #include"vector.h"
 #include"list.h"
 #include"stack.h"
@@ -6,10 +6,10 @@
 #include"binary_search.h"
 #include"sort_algorithm.h"
 #include"hashtable.h"
-#include"bigdata.h"
 #include"BST.h"
 #include"BSTREE.h"
 #include"AVL.h"
+#include"backtrack.h"
 
 int main(){
 	// testvector();
@@ -27,6 +27,7 @@ int main(){
 	// testBigData1();
 	// testBST1();
 	// testAVL();
+	test_backtrack();
 
 
 	return 0;

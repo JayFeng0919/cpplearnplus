@@ -12,4 +12,6 @@ add_compile_options("-fexec-charset=GBK")
 file(GLOB SOURCES "*.cpp")
 
 # 4. 告诉 CMake：用 SOURCES 里的所有文件，生成一个名为 main 的可执行文件
-add_executable(main ${SOURCES})
+add_executable(main ${SOURCES}
+    divide_conquer.h
+    divide_conquer.cpp)

@@ -1,4 +1,4 @@
-﻿#include "BSTREE.h"
+#include "BSTREE.h"
 
 BSTREE::BSTREE():root_(nullptr){}
 
@@ -346,13 +346,12 @@ void BSTREE::n_levelorder() {
 	std::cout << std::endl;
 }
 
-void::BSTREE::destroy(Node* node) {
+void BSTREE::destroy(Node* node) {
 	if (!node)
 		return;
 	destroy(node->left_);
 	destroy(node->right_);
 	delete node;
-	node = nullptr;
 }
 
 void BSTREE::findValues(std::vector<int>& vec, const int& i, const int& j) {
@@ -488,7 +487,7 @@ BSTREE::Node* BSTREE::reBuild(int pre[], int i, int j, int in[], int m, int n) {
 		return nullptr;
 	Node* node = new Node(pre[i]);
 	for (int k = m; k <= n; k++) {
-		if (pre[i] = in[k]) {
+		if (pre[i] == in[k]) {
 			node->left_ = reBuild(pre, i + 1, i + k - m, in, m, k - 1);
 			node->right_ = reBuild(pre, i + k - m + 1, j, in, k + 1, n);
 			return node;

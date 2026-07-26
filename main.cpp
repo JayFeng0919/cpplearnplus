@@ -1,17 +1,5 @@
 ﻿#include <iostream>
-#include"vector.h"
-#include"list.h"
-#include"stack.h"
-#include"queue.h"
-#include"binary_search.h"
-#include"sort_algorithm.h"
-#include"hashtable.h"
-#include"BST.h"
-#include"BSTREE.h"
-#include"AVL.h"
-#include"backtrack.h"
-#include"divide_conquer.h"
-#include"dynamic_programming.h"
+#include "main.h"
 
 int main(){
 	// testvector();
@@ -29,7 +17,10 @@ int main(){
 	// testBigData1();
 	// testBST1();
 	// testAVL();
-
+	// teststring_matching();
+	// testSkipList();
+	// testTrie();
+	// testHuffmanTree();
 
 	return 0;
 }

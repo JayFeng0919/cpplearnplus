@@ -19,6 +19,9 @@ Trie::~Trie() {
 }
 
 void Trie::add(const std::string &word) {
+    if (word.empty())
+        return;
+
     TrieNode *cur = root_;
     for (const char& c: word) {
         auto childIt = cur->nodeMap_.find(c);
@@ -35,6 +38,9 @@ void Trie::add(const std::string &word) {
 }
 
 void Trie::remove(const std::string &word) {
+    if (word.empty())
+        return;
+
     TrieNode *cur = root_;
     TrieNode *del = root_;
     char delch = word[0];
@@ -74,6 +80,9 @@ void Trie::remove(const std::string &word) {
 }
 
 int Trie::query(const std::string &word) {
+    if (word.empty())
+        return 0;
+
     TrieNode *cur = root_;
     for (const char& c: word) {
         auto childIt = cur->nodeMap_.find(c);
@@ -86,23 +95,23 @@ int Trie::query(const std::string &word) {
 }
 
 void Trie::preorder() {
-    std::string word;
+    std::string word = "";
     std::vector<std::string> wordList;
     preorder(root_, word, wordList);
     for (const std::string& word: wordList) {
-        std::cout << word << std::endl;
+        std::cout << word << "\n";
     }
-    std::cout << std::endl;
+    std::cout << "\n";
 }
 
-void Trie::preorder(TrieNode *cur, std::string word, std::vector<std::string> &wordList) {
+void Trie::preorder(TrieNode *cur, std::string& word, std::vector<std::string> &wordList) {
     if (cur != root_) {
         word.push_back(cur->ch_);
         if (cur->freqs_ > 0) {
             wordList.emplace_back(word);
         }
     }
-    for (auto pair: cur->nodeMap_) {
+    for (const auto& pair: cur->nodeMap_) {
         preorder(pair.second, word, wordList);
     }
 }
@@ -120,7 +129,11 @@ std::vector<std::string> Trie::queryPrefix(const std::string &prefix) {
     }
 
     std::vector<std::string> wordList;
-    preorder(cur, prefix.substr(0, prefix.size() - 1), wordList);
+    std::string base = "";
+    if (!prefix.empty()) {
+        base = prefix.substr(0, prefix.size() - 1);
+    }
+    preorder(cur, base, wordList);
     return wordList;
 }
 
@@ -138,16 +151,16 @@ void testTrie() {
     t.add("heword");
     t.add("hellw");
 
-    std::cout << t.query("hello") << std::endl;
-    std::cout << t.query("helloo") << std::endl;
-    std::cout << t.query("hel") << std::endl;
-    std::cout << t.query("china") << std::endl;
-    std::cout << t.query("ch") << std::endl;
+    std::cout << t.query("hello") << "\n";
+    std::cout << t.query("helloo") << "\n";
+    std::cout << t.query("hel") << "\n";
+    std::cout << t.query("china") << "\n";
+    std::cout << t.query("ch") << "\n";
 
     t.preorder();
     std::vector<std::string> words = t.queryPrefix("ch");
     for (auto& word: words) {
-        std::cout << word << std::endl;
+        std::cout << word << "\n";
     }
-    std::cout << std::endl;
+    std::cout << "\n";
 }

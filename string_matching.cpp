@@ -47,12 +47,12 @@ void teststring_matching() {
     int index1 = BF(s, t);
     int index2 = KMP(s, t);
     if (index1 != -1) {
-        std::cout << "Pattern found at index: " << index1 << std::endl;
+        std::cout << "Pattern found at index: " << index1 << "\n";
     }
     if (index2 != -1) {
-        std::cout << "Pattern found at index: " << index2 << std::endl;
+        std::cout << "Pattern found at index: " << index2 << "\n";
     }
     else {
-        std::cout << "Pattern not found." << std::endl;
+        std::cout << "Pattern not found." << "\n";
     }
 }

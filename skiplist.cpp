@@ -144,8 +144,8 @@ void testSkipList() {
     sl.show();
     sl.insert(50);
     sl.show();
-    std::cout << "Find 50: " << (sl.find(50) ? "Found" : "Not Found") << std::endl;
+    std::cout << "Find 50: " << (sl.find(50) ? "Found\n" : "Not Found\n");
     sl.remove(50);
     sl.show();
-    std::cout << "Find 50: " << (sl.find(50) ? "Found" : "Not Found") << std::endl;
+    std::cout << "Find 50: " << (sl.find(50) ? "Found\n" : "Not Found\n");
 }

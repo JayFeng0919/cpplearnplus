@@ -84,9 +84,9 @@ void HuffmanTree::getHuffmanCode(TreeNode *root, std::string &code) {
 
 void HuffmanTree::showHuffmanCode() {
     for (const auto& [ch, str]: codeMap_) {
-        std::cout << ch << ": " << str << std::endl;
+        std::cout << ch << ": " << str << "\n";
     }
-    std::cout << std::endl;
+    std::cout << "\n";
 }
 
 void HuffmanTree::init(const std::string& str) {
@@ -100,7 +100,7 @@ std::string HuffmanTree::encode(const std::string &str) {
     for (const char &ch : str) {
         auto it = codeMap_.find(ch);
         if (it == codeMap_.end()) {
-            std::cout << "错误: 存在建树时未出现的字符" << std::endl;
+            std::cout << "错误: 存在建树时未出现的字符\n";
             return "";
         }
         encode_str.append(it->second);
@@ -110,7 +110,7 @@ std::string HuffmanTree::encode(const std::string &str) {
 
 std::string HuffmanTree::decode(const std::string &str) {
     if (!root_) {
-        std::cout << "错误: 哈夫曼树尚未构建, 请先调用create()" << std::endl;
+        std::cout << "错误: 哈夫曼树尚未构建, 请先调用create()\n";
         return "";
     }
 
@@ -118,7 +118,7 @@ std::string HuffmanTree::decode(const std::string &str) {
     TreeNode *cur = root_;
     for (const char& ch: str) {
         if (ch != '0' && ch != '1') {
-            std::cout << "错误: 存在非0/1字符" << std::endl;
+            std::cout << "错误: 存在非0/1字符\n";
             return "";
         }
         cur = ch == '0' ? cur->left_ : cur->right_;
@@ -129,7 +129,7 @@ std::string HuffmanTree::decode(const std::string &str) {
     }
 
     if (cur != root_) {
-        std::cout << "错误: 二进制码不完整" << std::endl;
+        std::cout << "错误: 二进制码不完整\n";
         return "";
     }
 
@@ -140,6 +140,6 @@ void testHuffmanTree() {
     std::string str = "ABACDAE";
     HuffmanTree htree;
     htree.init(str);
-    std::cout << htree.encode("ADBCAR") << std::endl;
-    std::cout << htree.decode(htree.encode("ADBCA")) << std::endl;
+    std::cout << htree.encode("ADBCAR") << "\n";
+    std::cout << htree.decode(htree.encode("ADBCA")) << "\n";
 }

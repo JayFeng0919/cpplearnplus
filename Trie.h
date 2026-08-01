@@ -30,7 +30,7 @@ private:
     };
 
 private:
-    void preorder(TrieNode *root, std::string word, std::vector<std::string> &wordList);
+    void preorder(TrieNode *root, std::string &word, std::vector<std::string> &wordList);
 
 private:
     TrieNode *root_;

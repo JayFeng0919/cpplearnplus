@@ -21,6 +21,8 @@ int main(){
 	// testSkipList();
 	// testTrie();
 	// testHuffmanTree();
+	// testDigraph();
+	testWeightedGraph();
 
 	return 0;
 }

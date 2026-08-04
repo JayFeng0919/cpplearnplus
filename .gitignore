@@ -9,10 +9,6 @@ Release/
 x86/
 ipch/
 .vs/
-*.sln
-*.vcxproj
-*.vcxproj.filters
-*.vcxproj.user
 *.aps
 *.res
 *.rc

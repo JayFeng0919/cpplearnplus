@@ -18,3 +18,5 @@
 #include "inverted_index.h"
 #include "HuffmanTree.h"
 #include "graph.h"
+#include "DSU.h"
+#include "Kruskal.h"

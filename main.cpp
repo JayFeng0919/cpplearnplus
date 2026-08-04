@@ -22,7 +22,9 @@ int main(){
 	// testTrie();
 	// testHuffmanTree();
 	// testDigraph();
-	testWeightedGraph();
+	// testWeightedGraph();
+	// testDSU_size();
+	testKruskal();
 
 	return 0;
 }

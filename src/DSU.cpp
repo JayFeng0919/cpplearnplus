@@ -50,7 +50,7 @@ int DSU_size::getBlockSize(int x)
 void testDSU_size()
 {
     DSU_size dsu(5);
-    std::cout << "1,2 是否连通：" << (dsu.isConnected(1, 2) ? "是" : "否") << "\n";
+    std::cout << "1,2 是否连通: " << (dsu.isConnected(1, 2) ? "是" : "否") << "\n";
 
     dsu.unite(1, 2);
     dsu.unite(2, 3);

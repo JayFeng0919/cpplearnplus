@@ -14,7 +14,7 @@ void Digraph::addEdge(const int from, const int to) {
     int total = static_cast<int>(vertexes.size()) - 1;
   
     if (from < 1 || from > total || to < 1 || to > total) {
-        std::cout << "添加边失败：顶点编号非法 (" << from << " -> " << to << ")\n";
+        std::cout << "添加边失败: 顶点编号非法 (" << from << " -> " << to << ")\n";
         return;
     }
     vertexes[from].adjList_.push_back(to);
@@ -99,11 +99,11 @@ void Digraph::bfs() const {
 void Digraph::bfsShortestPath(int start, int end) const {
     const int maxVtx = static_cast<int>(vertexes.size()) - 1;
     if (start < 1 || start > maxVtx || end < 1 || end > maxVtx) {
-        std::cout << "错误：起点/终点编号越界, 有效范围1~" << maxVtx << "\n";
+        std::cout << "错误: 起点/终点编号越界, 有效范围1~" << maxVtx << "\n";
         return;
     }
     if (start == end) {
-        std::cout << "最短路径：" << vertexes[start].data_ << "\n";
+        std::cout << "最短路径: " << vertexes[start].data_ << "\n";
         return;
     }
 
@@ -199,11 +199,11 @@ void WeightedGraph::addEdge(const int from, const int to, const int weight) {
     int total = static_cast<int>(vertexes.size()) - 1;
 
     if (from < 1 || from > total || to < 1 || to > total) {
-        std::cout << "添加边失败：顶点编号非法 (" << from << " -- " << to << ")\n";
+        std::cout << "添加边失败: 顶点编号非法 (" << from << " -- " << to << ")\n";
         return;
     }
     if (weight < 0) {
-        std::cout << "警告：存在负权边(" << from << "--" << to << "," << weight<< "), Dijkstra算法结果可能错误\n";
+        std::cout << "警告: 存在负权边(" << from << "--" << to << "," << weight<< "), Dijkstra算法结果可能错误\n";
     }
     vertexes[from].adjList_.emplace_back(to, weight);
     vertexes[to].adjList_.emplace_back(from, weight);

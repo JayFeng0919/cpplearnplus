@@ -1,9 +1,7 @@
 #include <iostream>
-#include <windows.h>
 #include "main.h"
 
 int main(){
-    SetConsoleOutputCP(65001);  // 设置控制台输出编码为UTF-8
     // testvector();
     // singly::testClink();
     // singly::testCircleLink();

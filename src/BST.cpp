@@ -7,6 +7,32 @@ template <typename T, typename Compare>
 BSTree<T, Compare>::~BSTree() { destroy(root_); }
 
 template <typename T, typename Compare>
+int BSTree<T, Compare>::high() {
+    return high(root_);
+}
+
+template <typename T, typename Compare>
+int BSTree<T, Compare>::high(Node *node) {
+    if (!node)
+        return 0;
+    int left = high(node->left_);
+    int right = high(node->right_);
+    return left > right ? left + 1 : right + 1;
+}
+
+template <typename T, typename Compare>
+int BSTree<T, Compare>::number() {
+    return number(root_);
+}
+
+template <typename T, typename Compare>
+int BSTree<T, Compare>::number(Node *node) {
+    if (!node)
+        return 0;
+    return number(node->left_) + number(node->right_) + 1;
+}
+
+template <typename T, typename Compare>
 void BSTree<T, Compare>::n_insert(const T& val) {
     if (!root_) {
         root_ = new Node(val);
@@ -37,6 +63,24 @@ void BSTree<T, Compare>::n_insert(const T& val) {
 template <typename T, typename Compare>
 void BSTree<T, Compare>::insert(const T& val) {
     root_ = insert(root_, val);
+}
+
+template <typename T, typename Compare>
+typename BSTree<T, Compare>::Node *BSTree<T, Compare>::insert(Node *node, const T &val) {
+    if (!node) {
+        return new Node(val);
+    }
+
+    if (node->data_ == val) {
+        return node;
+    }
+    else if (comp_(node->data_, val)) {
+        node->right_ = insert(node->right_, val);
+    }
+    else {
+        node->left_ = insert(node->left_, val);
+    }
+    return node;
 }
 
 template <typename T, typename Compare>
@@ -91,6 +135,45 @@ void BSTree<T, Compare>::remove(const T& val) {
     root_ = remove(root_, val);
 }
 
+template <typename T, typename Compare>
+typename BSTree<T, Compare>::Node *BSTree<T, Compare>::remove(Node *node, const T &val) {
+    if (!node)
+        return nullptr;
+
+    if (node->data_ == val) {
+        if (node->left_ && node->right_) {
+            Node *pre = node->left_;
+            while (pre->right_) {
+                pre = pre->right_;
+            }
+            node->data_ = pre->data_;
+            node->left_ = remove(node->left_, pre->data_);
+        }
+        else {
+            if (node->left_) {
+                Node *left = node->left_;
+                delete node;
+                return left;
+            }
+            else if (node->right_) {
+                Node *right = node->right_;
+                delete node;
+                return right;
+            }
+            else {
+                delete node;
+                return nullptr;
+            }
+        }
+    }
+    else if (comp_(node->data_, val))
+        node->right_ = remove(node->right_, val);
+    else
+        node->left_ = remove(node->left_, val);
+
+    return node;
+}
+
 template<typename T,typename Compare>
 bool BSTree<T, Compare>::n_query(const T& val) {
     Node* cur = root_;
@@ -107,13 +190,35 @@ bool BSTree<T, Compare>::n_query(const T& val) {
 
 template<typename T, typename Compare>
 bool BSTree<T, Compare>::query(const T& val) {
-    return nullptr != query(root_, val);
+    return query(root_, val);
+}
+
+template <typename T, typename Compare>
+typename BSTree<T, Compare>::Node *BSTree<T, Compare>::query(Node *node, const T &val) {
+    if (!node)
+        return nullptr;
+    if (node->data_ == val)
+        return node;
+    else if (comp_(node->data_, val))
+        return query(node->right_, val);
+    else
+        return query(node->left_, val);
 }
 
 template<typename T, typename Compare>
 void BSTree<T, Compare>::preorder_traversal() {
     preorder_traversal(root_);
-    std::cout << std::endl;
+    std::cout << '\n';
+}
+
+template <typename T, typename Compare>
+void BSTree<T, Compare>::preorder_traversal(Node *node) {
+    if (!node)
+        return;
+
+    std::cout << node->data_ << " ";
+    preorder_traversal(node->left_);
+    preorder_traversal(node->right_);
 }
 
 template<typename T, typename Compare>
@@ -136,13 +241,22 @@ void BSTree<T, Compare>::n_preorder_traversal() {
         }
     }
 
-    std::cout << std::endl;
+    std::cout << '\n';
 }
 
 template<typename T, typename Compare>
 void BSTree<T, Compare>::inorder_traversal() {
     inorder_traversal(root_);
-    std::cout << std::endl;
+    std::cout << '\n';
+}
+
+template<typename T, typename Compare>
+void BSTree<T, Compare>::inorder_traversal(Node* node) {
+    if (!node) return;
+
+    inorder_traversal(node->left_);
+    std::cout << node->data_ << " ";
+    inorder_traversal(node->right_);
 }
 
 template<typename T, typename Compare>
@@ -165,13 +279,22 @@ void BSTree<T, Compare>::n_inorder_traversal() {
         }
     }
 
-    std::cout << std::endl;
+    std::cout << '\n';
 }
 
 template<typename T, typename Compare>
 void BSTree<T, Compare>::postorder_traversal() {
     postorder_traversal(root_);
-    std::cout << std::endl;
+    std::cout << '\n';
+}
+
+template<typename T, typename Compare>
+void BSTree<T, Compare>::postorder_traversal(Node* node) {
+    if (!node) return;
+
+    postorder_traversal(node->left_);
+    postorder_traversal(node->right_);
+    std::cout << node->data_ << " ";
 }
 
 template<typename T, typename Compare>
@@ -199,7 +322,7 @@ void BSTree<T, Compare>::n_postorder_traversal() {
         s2.pop();
     }
 
-    std::cout << std::endl;
+    std::cout << '\n';
 }
 
 template<typename T, typename Compare>
@@ -208,7 +331,19 @@ void BSTree<T, Compare>::levelorder_traversal() {
     for (int i = 0; i < h; i++) {
         levelorder_traversal(root_, i);
     }
-    std::cout << std::endl;
+    std::cout << '\n';
+}
+
+template<typename T, typename Compare>
+void BSTree<T, Compare>::levelorder_traversal(Node* node, int i) {
+    if (!node)
+        return;
+    if (i == 0) {
+        std::cout << node->data_ << " ";
+        return;
+    }
+    levelorder_traversal(node->left_, i - 1);
+    levelorder_traversal(node->right_, i - 1);
 }
 
 template<typename T, typename Compare>
@@ -229,17 +364,7 @@ void BSTree<T, Compare>::n_levelorder_traversal() {
             q.emplace(front->right_);
         }
     }
-    std::cout << std::endl;
-}
-
-template<typename T, typename Compare>
-int BSTree<T, Compare>::high() {
-    return high(root_);
-}
-
-template<typename T, typename Compare>
-int BSTree<T, Compare>::number() {
-    return number(root_);
+    std::cout << '\n';
 }
 
 template<typename T, typename Compare>
@@ -248,9 +373,45 @@ void BSTree<T, Compare>::findValues(std::vector<T>& vec, int i, int j) {
 }
 
 template<typename T, typename Compare>
+void BSTree<T, Compare>::findValues(Node* node, std::vector<T>& vec, int i, int j) {
+    if (node) {
+        if (node->data_ > i) {
+            findValues(node->left_, vec, i, j);
+        }
+
+        if (i <= node->data_ && node->data_ <= j) {
+            vec.emplace_back(node->data_);
+        }
+
+        if (node->data_ < j) {
+            findValues(node->right_, vec, i, j);
+        }
+    }
+}
+
+template<typename T, typename Compare>
 bool BSTree<T, Compare>::isBSTree() {
     Node* pre = nullptr;
     return isBSTree(root_, pre);
+}
+
+template<typename T, typename Compare>
+bool BSTree<T, Compare>::isBSTree(Node* node, Node*& pre) {
+    if (!node)
+        return true;
+
+    if (!isBSTree(node->left_, pre)) {
+        return false;
+    }
+
+    if (pre) {
+        if (!comp_(pre->data_, node->data_)) {
+            return false;
+        }
+    }
+    pre = node;
+
+    return isBSTree(node->right_, pre);
 }
 
 template<typename T, typename Compare>
@@ -279,217 +440,6 @@ bool BSTree<T, Compare>::isChild(BSTree<T, Compare>& child) {
 }
 
 template<typename T, typename Compare>
-T BSTree<T, Compare>::getLCA(const T& val1, const T& val2) {
-    if (!query(val1) || !query(val2)) {
-        throw "not exist";
-    }
-    if (val1 == val2) {
-        return val1;
-    }
-
-    Node* node = getLCA(root_, val1, val2);
-    if (!node) {
-        throw "no LCA";
-    }
-    return node->data_;
-
-}
-
-template<typename T, typename Compare>
-void BSTree<T, Compare>::mirror_reversal() {
-    mirror_reversal(root_);
-}
-
-template<typename T, typename Compare>
-bool BSTree<T, Compare>::mirror() {
-    if (!root_)
-        return true;
-    return mirror(root_->left_, root_->right_);
-}
-
-template<typename T, typename Compare>
-void BSTree<T, Compare>::rebuild(T pre[], int i, int j, T in[], int m, int n) {
-    root_ = reBuild(pre, i, j, in, m, n);
-}
-
-template<typename T, typename Compare>
-bool BSTree<T, Compare>::isBalance() {
-    int l = 0;
-    bool flag = true;
-    isBalance(root_, l, flag);
-    return flag;
-}
-
-template<typename T, typename Compare>
-T BSTree<T, Compare>::getKval(int k) {
-    int i = 0;
-    Node* node = getKval(root_, k, i);
-    if (!node)
-        throw "no Node";
-    return node->data_;
-}
-
-template<typename T, typename Compare>
-typename BSTree<T, Compare>::Node* BSTree<T, Compare>::insert(Node* node, const T& val) {
-    if (!node) {
-        return new Node(val);
-    }
-
-    if (node->data_ == val) {
-        return node;
-    }
-    else if (comp_(node->data_, val)) {
-        node->right_ = insert(node->right_, val);
-    }
-    else {
-        node->left_ = insert(node->left_, val);
-    }
-    return node;
-}
-
-template<typename T, typename Compare>
-typename BSTree<T, Compare>::Node* BSTree<T, Compare>::remove(Node* node, const T& val) {
-    if (!node)
-        return nullptr;
-
-    if (node->data_ == val) {
-        if (node->left_ && node->right_) {
-            Node* pre = node->left_;
-            while (pre->right_) {
-                pre = pre->right_;
-            }
-            node->data_ = pre->data_;
-            node->left_ = remove(node->left_, pre->data_);
-        }
-        else {
-            if (node->left_) {
-                Node* left = node->left_;
-                delete node;
-                return left;
-            }
-            else if (node->right_) {
-                Node* right = node->right_;
-                delete node;
-                return right;
-            }
-            else {
-                delete node;
-                return nullptr;
-            }
-        }
-    }
-    else if (comp_(node->data_, val))
-        node->right_ = remove(node->right_, val);
-    else
-        node->left_ = remove(node->left_, val);
-
-    return node;
-}
-
-template<typename T, typename Compare>
-typename BSTree<T, Compare>::Node* BSTree<T, Compare>::query(Node* node, const T& val) {
-    if (!node)
-        return nullptr;
-    if (node->data_ == val)
-        return node;
-    else if (comp_(node->data_, val))
-        return query(node->right_, val);
-    else
-        return query(node->left_, val);
-}
-
-template<typename T,typename Compare>
-void BSTree<T, Compare>::preorder_traversal(Node* node) {
-    if (!node) return;
-
-    std::cout << node->data_ << " ";
-    preorder_traversal(node->left_);
-    preorder_traversal(node->right_);
-}
-
-template<typename T, typename Compare>
-void BSTree<T, Compare>::inorder_traversal(Node* node) {
-    if (!node) return;
-
-    inorder_traversal(node->left_);
-    std::cout << node->data_ << " ";
-    inorder_traversal(node->right_);
-}
-
-template<typename T, typename Compare>
-void BSTree<T, Compare>::postorder_traversal(Node* node) {
-    if (!node) return;
-
-    postorder_traversal(node->left_);
-    postorder_traversal(node->right_);
-    std::cout << node->data_ << " ";
-}
-
-template<typename T, typename Compare>
-void BSTree<T, Compare>::levelorder_traversal(Node* node, int i) {
-    if (!node)
-        return;
-    if (i == 0) {
-        std::cout << node->data_ << " ";
-        return;
-    }
-    levelorder_traversal(node->left_, i - 1);
-    levelorder_traversal(node->right_, i - 1);
-}
-
-template<typename T, typename Compare>
-int BSTree<T, Compare>::high(Node* node) {
-    if (!node)
-        return 0;
-    int left = high(node->left_);
-    int right = high(node->right_);
-    return left > right ? left + 1 : right + 1;
-}
-
-template<typename T, typename Compare>
-int BSTree<T, Compare>::number(Node* node) {
-    if (!node)
-        return 0;
-    return number(node->left_) + number(node->right_) + 1;
-}
-
-template<typename T, typename Compare>
-void BSTree<T, Compare>::findValues(Node* node, std::vector<T>& vec, int i, int j) {
-    if (node) {
-        if (node->data_ > i) {
-            findValues(node->left_, vec, i, j);
-        }
-
-        if (i <= node->data_ && node->data_ <= j) {
-            vec.emplace_back(node->data_);
-        }
-
-        if (node->data_ < j) {
-            findValues(node->right_, vec, i, j);
-        }
-    }
-}
-
-template<typename T, typename Compare>
-bool BSTree<T, Compare>::isBSTree(Node* node, Node*& pre) {
-    if (!node)
-        return true;
-
-    if (!isBSTree(node->left_, pre)) {
-        return false;
-    }
-
-    if (pre) {
-        if (!comp_(pre->data_, node->data_)) {
-            return false;
-        }
-    }
-    pre = node;
-
-    return isBSTree(node->right_, pre);
-}
-
-template<typename T, typename Compare>
 bool BSTree<T, Compare>::isChild(Node* father, Node* child) {
     if (!father && !child) {
         return true;
@@ -511,6 +461,22 @@ bool BSTree<T, Compare>::isChild(Node* father, Node* child) {
 }
 
 template<typename T, typename Compare>
+T BSTree<T, Compare>::getLCA(const T& val1, const T& val2) {
+    if (!query(val1) || !query(val2)) {
+        throw "not exist";
+    }
+    if (val1 == val2) {
+        return val1;
+    }
+
+    Node* node = getLCA(root_, val1, val2);
+    if (!node) {
+        throw "no LCA";
+    }
+    return node->data_;
+}
+
+template<typename T, typename Compare>
 typename BSTree<T, Compare>::Node* BSTree<T, Compare>::getLCA(Node* node, const T& val1, const T& val2) {
     if (!node) {
         return nullptr;
@@ -528,6 +494,11 @@ typename BSTree<T, Compare>::Node* BSTree<T, Compare>::getLCA(Node* node, const 
 }
 
 template<typename T, typename Compare>
+void BSTree<T, Compare>::mirror_reversal() {
+    mirror_reversal(root_);
+}
+
+template<typename T, typename Compare>
 void BSTree<T, Compare>::mirror_reversal(Node* node) {
     if (!node)
         return;
@@ -541,6 +512,13 @@ void BSTree<T, Compare>::mirror_reversal(Node* node) {
 }
 
 template<typename T, typename Compare>
+bool BSTree<T, Compare>::mirror() {
+    if (!root_)
+        return true;
+    return mirror(root_->left_, root_->right_);
+}
+
+template<typename T, typename Compare>
 bool BSTree<T, Compare>::mirror(Node* node1, Node* node2) {
     if (!node1 && !node2)
         return true;
@@ -551,6 +529,11 @@ bool BSTree<T, Compare>::mirror(Node* node1, Node* node2) {
     if (node1->data_ != node2->data_)
         return false;
     return mirror(node1->left_, node2->right_) && mirror(node1->right_, node2->left_);
+}
+
+template<typename T, typename Compare>
+void BSTree<T, Compare>::rebuild(T pre[], int i, int j, T in[], int m, int n) {
+    root_ = reBuild(pre, i, j, in, m, n);
 }
 
 template<typename T, typename Compare>
@@ -571,6 +554,14 @@ typename BSTree<T, Compare>::Node* BSTree<T, Compare>::reBuild(T pre[], int i, i
 }
 
 template<typename T, typename Compare>
+bool BSTree<T, Compare>::isBalance() {
+    int l = 0;
+    bool flag = true;
+    isBalance(root_, l, flag);
+    return flag;
+}
+
+template<typename T, typename Compare>
 int BSTree<T, Compare>::isBalance(Node* node, int l, bool& flag) {
     if (!node)
         return l;
@@ -586,6 +577,15 @@ int BSTree<T, Compare>::isBalance(Node* node, int l, bool& flag) {
         flag = false;
     }
     return std::max(left, right);
+}
+
+template<typename T, typename Compare>
+T BSTree<T, Compare>::getKval(int k) {
+    int i = 0;
+    Node* node = getKval(root_, k, i);
+    if (!node)
+        throw "no Node";
+    return node->data_;
 }
 
 template<typename T, typename Compare>
@@ -625,7 +625,7 @@ void testBST1() {
     bst.postorder_traversal();
     bst.levelorder_traversal();
     
-    std::cout << bst.getKval(11) << std::endl;
+    std::cout << bst.getKval(11) << '\n';
 }
 
 void testBST2() {

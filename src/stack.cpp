@@ -2,15 +2,33 @@
 #include"stack.h"
 
 SeqStack::SeqStack(int size)
-    :mtop(0)
+    : mtop(0)
     , mcap(size)
 {
     mpStack = new int[mcap];
 }
 
+SeqStack::SeqStack(const SeqStack& other)
+    : mcap(other.mcap)
+    , mtop(other.mtop)
+{
+    mpStack = new int[other.mcap];
+    memcpy(mpStack, other.mpStack, sizeof(int) * other.mtop);
+}
+
 SeqStack::~SeqStack() {
-    delete[]mpStack;
+    delete[] mpStack;
     mpStack = nullptr;
+}
+
+SeqStack& SeqStack::operator=(const SeqStack &other) {
+    if (this == &other)
+        return *this;
+    delete[] mpStack;
+    mcap = other.mcap;
+    mtop = other.mtop;
+    mpStack = new int[mcap];
+    memcpy(mpStack, other.mpStack, sizeof(int) * other.mtop);
 }
 
 void SeqStack::push(int val) {
@@ -42,51 +60,86 @@ int SeqStack::size() const {
 void SeqStack::expand(int size) {
     int* p = new int[size];
     memcpy(p, mpStack, sizeof(int) * mtop);
-    delete[]mpStack;
+    delete[] mpStack;
     mpStack = p;
     mcap = size;
 }
 
+
+
 LinkStack::LinkStack():size_(0) {
-    head_ = new Node();
+    dummy_ = new Node();
+}
+
+LinkStack::LinkStack(const LinkStack& other) {
+    dummy_ = new Node();
+    Node *cur = dummy_;
+    Node *p = other.dummy_->next_;
+    while (p) {
+        cur->next_ = new Node(p->data_);
+        p = p->next_;
+        cur = cur->next_;
+    }
 }
 
 LinkStack::~LinkStack() {
-    Node* p = head_;
+    Node* p = dummy_;
     while (p) {
-        head_ = head_->next_;
+        dummy_ = dummy_->next_;
         delete p;
-        p = head_;
+        p = dummy_;
     }
+}
+
+LinkStack& LinkStack::operator= (const LinkStack& other) {
+    if (this == &other)
+        return *this;
+
+    Node *p = dummy_;
+    while (p) {
+        dummy_ = dummy_->next_;
+        delete p;
+        p = dummy_;
+    }
+
+    dummy_ = new Node();
+    Node *cur = dummy_;
+    p = other.dummy_->next_;
+    while (p) {
+        cur->next_ = new Node(p->data_);
+        p = p->next_;
+        cur = cur->next_;
+    }
+    return *this;
 }
 
 void LinkStack::push(int val) {               // O(1)
     Node* node = new Node(val);
-    node->next_ = head_->next_;
-    head_->next_ = node;
+    node->next_ = dummy_->next_;
+    dummy_->next_ = node;
     size_++;
 }
 
 void LinkStack::pop() {
-    if (!head_->next_) {               // O(1)
+    if (!dummy_->next_) {               // O(1)
         return;
     }
-    Node* p = head_->next_;
-    head_->next_ = p->next_;
+    Node* p = dummy_->next_;
+    dummy_->next_ = p->next_;
     delete p;
     p = nullptr;
     size_--;
 }
 
 int LinkStack::top() const {
-    if (!head_->next_) {
+    if (!dummy_->next_) {
         throw "stack is empty!";
     }
-    return head_->next_->data_;
+    return dummy_->next_->data_;
 }
 
 bool LinkStack::empty() const {
-    return head_->next_ == nullptr;
+    return dummy_->next_ == nullptr;
 }
 
 int LinkStack::size() const {
@@ -94,27 +147,28 @@ int LinkStack::size() const {
 }
 
 void testSeqStack() {
-    int arr[] = { 1,2,3,4,5 };
+    int arr[] = {1, 2, 3, 4, 5};
     SeqStack s;
     for (int val : arr) {
         s.push(val);
     }
-    std::cout << s.empty() << std::endl;
-    std::cout << s.top() << std::endl;
+    std::cout << s.empty() << '\n';
+    std::cout << s.top() << '\n';
     s.pop();
-    std::cout << s.top() << std::endl;
-    std::cout << s.size() << std::endl;
+    std::cout << s.top() << '\n';
+    std::cout << s.size() << '\n';
 }
+
 void testLinkStack() {
     LinkStack s;
-    int arr[] = { 1,2,3,4,5,6 };
+    int arr[] = {1, 2, 3, 4, 5, 6};
     for (int val : arr) {
         s.push(val);
     }
-    std::cout << s.size() << std::endl;
+    std::cout << s.size() << '\n';
     while (!s.empty()) {
         std::cout << s.top() << " ";
         s.pop();
     }
-    std::cout << std::endl;
+    std::cout << '\n';
 }

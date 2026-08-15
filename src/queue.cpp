@@ -9,9 +9,34 @@ CircleQueue::CircleQueue(int size)
     pQue_ = new int[cap_];
 }
 
+CircleQueue::CircleQueue(const CircleQueue& other)
+    :cap_(other.cap_)
+    , front_(other.front_)
+    , rear_(other.rear_)
+{
+    pQue_ = new int[cap_];
+    for (int i = 0; i < size(); i++) {
+        pQue_[(front_ + i) % cap_] = other.pQue_[(other.front_ + i) % other.cap_];
+    }
+}
+
 CircleQueue::~CircleQueue() {
-    delete[]pQue_;
+    delete[] pQue_;
     pQue_ = nullptr;
+}
+
+CircleQueue& CircleQueue::operator=(const CircleQueue& other) {
+    if (this != &other) {
+        delete[] pQue_;
+        cap_ = other.cap_;
+        front_ = other.front_;
+        rear_ = other.rear_;
+        pQue_ = new int[cap_];
+        for (int i = 0; i < size(); i++) {
+            pQue_[(front_ + i) % cap_] = other.pQue_[(other.front_ + i) % other.cap_];
+        }
+    }
+    return *this;
 }
 
 void CircleQueue::push(int val) {
@@ -55,64 +80,99 @@ void CircleQueue::expand(int size) {
     for (; j != rear_ && i < size; i++, j = (j + 1) % cap_) {
         p[i] = pQue_[j];
     }
-    delete[]pQue_;
+    delete[] pQue_;
     pQue_ = p;
     cap_ = size;
     front_ = 0;
     rear_ = i;
 }
 
+
+
 LinkQueue::LinkQueue() :size_(0) {
-    head_ = new Node();
-    head_->next_ = head_;
-    head_->prev_ = head_;
+    dummy_ = new Node();
+    dummy_->next_ = dummy_;
+    dummy_->prev_ = dummy_;
+}
+
+LinkQueue::LinkQueue(const LinkQueue &other)
+    : size_(other.size_)
+{
+    dummy_ = new Node();
+    dummy_->next_ = dummy_;
+    dummy_->prev_ = dummy_;
+    Node *p = other.dummy_->next_;
+    while (p != other.dummy_) {
+        push(p->data_);
+        p = p->next_;
+    }
 }
 
 LinkQueue::~LinkQueue() {
-    Node* p = head_->next_;
-    while (p != head_) {
+    Node* p = dummy_->next_;
+    while (p != dummy_) {
         Node* temp = p;
         p = p->next_;
         delete temp;
     }
-    delete head_;
-    head_ = nullptr;
+    delete dummy_;
+    dummy_ = nullptr;
+}
+
+LinkQueue& LinkQueue::operator=(const LinkQueue &other) {
+    if (this != &other) {
+        Node* p = dummy_->next_;
+        while (p != dummy_) {
+            Node* temp = p;
+            p = p->next_;
+            delete temp;
+        }
+        size_ = other.size_;
+        dummy_->next_ = dummy_;
+        dummy_->prev_ = dummy_;
+        p = other.dummy_->next_;
+        while (p != other.dummy_) {
+            push(p->data_);
+            p = p->next_;
+        }
+    }
+    return *this;
 }
 
 void LinkQueue::push(int val) {
     Node* node = new Node(val);
-    node->next_ = head_;
-    node->prev_ = head_->prev_;
-    head_->prev_->next_ = node;
-    head_->prev_ = node;
+    node->next_ = dummy_;
+    node->prev_ = dummy_->prev_;
+    dummy_->prev_->next_ = node;
+    dummy_->prev_ = node;
     size_++;
 }
 
 void LinkQueue::pop() {
-    if (head_->next_ == head_)
+    if (dummy_->next_ == dummy_)
         return;
-    Node* p = head_->next_;
-    p->next_->prev_ = head_;
-    head_->next_ = p->next_;
+    Node* p = dummy_->next_;
+    p->next_->prev_ = dummy_;
+    dummy_->next_ = p->next_;
     delete p;
     p = nullptr;
     size_--;
 }
 
 int LinkQueue::front() const {
-    if (head_->next_ == head_)
+    if (dummy_->next_ == dummy_)
         throw "queue is empty!";
-    return head_->next_->data_;
+    return dummy_->next_->data_;
 }
 
 int LinkQueue::back() const {
-    if (head_->next_ == head_)
+    if (dummy_->next_ == dummy_)
         throw "queue is empty!";
-    return head_->prev_->data_;
+    return dummy_->prev_->data_;
 }
 
 bool LinkQueue::empty() const {
-    return head_->next_ == head_;
+    return dummy_->next_ == dummy_;
 }
 
 int LinkQueue::size() const {

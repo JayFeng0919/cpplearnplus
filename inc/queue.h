@@ -3,7 +3,10 @@
 class CircleQueue {
 public:
     CircleQueue(int size = 10);
+    CircleQueue(const CircleQueue &other);
     ~CircleQueue();
+    CircleQueue &operator=(const CircleQueue &other);
+
 public:
     void push(int val);
     void pop();
@@ -11,8 +14,10 @@ public:
     int back() const;
     bool empty() const;
     int size() const;
+
 private:
     void expand(int size);
+
 private:
     int* pQue_;
     int cap_;
@@ -23,7 +28,10 @@ private:
 class LinkQueue {
 public:
     LinkQueue();
+    LinkQueue(const LinkQueue& other);
     ~LinkQueue();
+    LinkQueue &operator=(const LinkQueue &other);
+
 public:
     void push(int val);
     void pop();
@@ -31,6 +39,7 @@ public:
     int back() const;
     bool empty() const;
     int size() const;
+
 private:
     struct Node {
         Node(int data = 0)
@@ -43,7 +52,7 @@ private:
         Node* prev_;
     };
 
-    Node* head_;
+    Node* dummy_;
     int size_;
 };
 

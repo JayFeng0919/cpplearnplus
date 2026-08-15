@@ -4,15 +4,40 @@
 #include"vector.h"
 
 Array::Array(int size)
-    :mCap(size)
+    : mCap(size)
     , mCur(0)
 {
     mpArr = new int[mCap];
 }
 
+Array::Array(const Array &other)
+    : mCap(other.mCap)
+    , mCur(other.mCur)
+{
+    mpArr = new int(mCap);
+    for (int i = 0; i < mCur; i++) {
+        mpArr[i] = other.mpArr[i];
+    }
+}
+
 Array::~Array() {
-    delete[]mpArr;
+    delete[] mpArr;
     mpArr = nullptr;
+}
+
+Array& Array::operator=(const Array &other) {
+    if (this == &other)
+        return *this;
+
+    int *newArr = new int[other.mCap];
+    for (int i = 0; i < other.mCur; ++i)
+        newArr[i] = other.mpArr[i];
+
+    delete[] mpArr;
+    mCap = other.mCap;
+    mCur = other.mCur;
+    mpArr = newArr;
+    return *this;
 }
 
 void Array::push_back(int val) {
@@ -28,10 +53,11 @@ void Array::pop_back() {
 }
 
 void Array::insert(int pos, int val) {
-    if (pos<0 || pos>mCur)
+    if (pos < 0 || pos > mCur)
         return;
     if (mCur == mCap)
         expand(2 * mCap);
+
     for (int i = mCur - 1; i >= pos; --i)
         mpArr[i + 1] = mpArr[i];
     mpArr[pos] = val;
@@ -58,13 +84,13 @@ void Array::show() const {
     for (int i = 0; i < mCur; i++) {
         std::cout << mpArr[i] << " ";
     }
-    std::cout << std::endl;
+    std::cout << '\n';
 }
 
 void Array::expand(int size) {
     int* p = new int[size];
     memcpy(p, mpArr, sizeof(int) * mCap);
-    delete[]mpArr;
+    delete[] mpArr;
     mpArr = p;
     mCap = size;
 }

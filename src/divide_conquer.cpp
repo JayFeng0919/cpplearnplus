@@ -171,7 +171,7 @@ MergeKSortedLists::ListNode* MergeKSortedLists::mergeTwoLists(ListNode *l1, List
     ListNode *head = l1;
     ListNode *cur = head;
     l1 = l1->next;
-    while (1){
+    for(;;) {
         if (!l1){
             cur->next = l2;
             break;

@@ -12,22 +12,31 @@ class BSTree {
 public:
     BSTree(Compare comp = Compare());
     ~BSTree();
-    void n_insert(const T& val);      // 插入
-    void insert(const T& val);
-    void n_remove(const T& val);      // 删除
-    void remove(const T& val);
-    bool n_query(const T& val);       // 查询
-    bool query(const T& val);
-    void preorder_traversal();        // 前序遍历
-    void n_preorder_traversal();
-    void inorder_traversal();         // 中序遍历
-    void n_inorder_traversal();
-    void postorder_traversal();       // 后序遍历
-    void n_postorder_traversal();
-    void levelorder_traversal();      // 层序遍历
-    void n_levelorder_traversal();
+
     int high();                       // 层数
     int number();                     // 节点个数
+
+    void n_insert(const T& val);      // 插入
+    void insert(const T& val);
+
+    void n_remove(const T& val);      // 删除
+    void remove(const T& val);
+
+    bool n_query(const T& val);       // 查询
+    bool query(const T& val);
+
+    void preorder_traversal();        // 前序遍历
+    void n_preorder_traversal();
+
+    void inorder_traversal();         // 中序遍历
+    void n_inorder_traversal();
+
+    void postorder_traversal();       // 后序遍历
+    void n_postorder_traversal();
+
+    void levelorder_traversal();      // 层序遍历
+    void n_levelorder_traversal();
+
     void findValues(std::vector<T>& vec, int i, int j);     // 求区间元素值
     bool isBSTree();                                        // 判断BST树（对普通二叉树）
     bool isChild(BSTree<T, Compare>& child);                // 判断子树
@@ -41,7 +50,7 @@ public:
 private:
     struct Node {
         Node(T data = T())
-            :data_(data)
+            : data_(data)
             , left_(nullptr)
             , right_(nullptr)
         {}
@@ -50,6 +59,9 @@ private:
         Node* right_;
     };
 
+    void destroy(Node *node);
+    int high(Node *node);
+    int number(Node *node);
     Node* insert(Node* node, const T& val);
     Node* remove(Node* node, const T& val);
     Node* query(Node* node, const T& val);
@@ -57,8 +69,6 @@ private:
     void inorder_traversal(Node* node);
     void postorder_traversal(Node* node);
     void levelorder_traversal(Node* node, int i);
-    int high(Node* node);
-    int number(Node* node);
     void findValues(Node* node, std::vector<T>& vec, int i, int j);
     bool isBSTree(Node* node, Node*& pre);
     bool isChild(Node* father, Node* child);
@@ -68,7 +78,7 @@ private:
     Node* reBuild(T pre[], int i, int j, T in[], int m, int n);
     int isBalance(Node* node, int l, bool& flag);
     Node* getKval(Node* node, int k, int& i);
-    void destroy(Node* node);
+
 
     Node* root_;
     Compare comp_;

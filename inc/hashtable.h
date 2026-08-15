@@ -24,13 +24,19 @@ namespace linear {
     class HashTable {
     public:
         HashTable(int size = primes_[0], double loadFactor = 0.75);
+        HashTable(const HashTable &other) = delete;
         ~HashTable();
+        HashTable& operator=(const HashTable &other) = delete; // 禁止赋值操作
+    
     public:
         bool insert(int key);
         bool erase(int key);
         bool find(int key) const;
+        double getFactor() const;
+
     private:
         void expand();
+
     private:
         Bucket* table_;
         int tableSize_;
@@ -43,20 +49,24 @@ namespace linear {
     };
 
     void testHashTable();
-}
+};
 
 namespace linked {
     class HashTable {
     public:
         HashTable(int size = primes_[0], double loadFactor = 0.75);
+        HashTable(const HashTable &other) = delete;
+        HashTable &operator=(const HashTable &other) = delete;
+
     public:
         void insert(int key);
-
         void erase(int key);
-
         bool find(int key) const;
+        double getFactor() const;
+
     private:
         void expand();
+
     private:
         std::vector<std::list<int>> table_;
         int useBucketNum_;
@@ -68,4 +78,4 @@ namespace linked {
     };
 
     void testHashTable();
-}
+};

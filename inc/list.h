@@ -2,7 +2,10 @@
 
 namespace singly {
     struct Node {
-        Node(int data = 0):data_(data),next_(nullptr){}
+        Node(int data = 0)
+            : data_(data)
+            , next_(nullptr)
+        {}
         int data_;
         Node* next_;
     };
@@ -12,15 +15,20 @@ namespace singly {
         friend bool GetLastKNode(Clink& link, int k, int& val);
         friend bool hasCircle(Clink& link, int& val);
         friend bool IsLinkHasMerge(Clink& link1, Clink& link2, int& val);
+
     public:
         Clink();
+        Clink(const Clink &other);
         ~Clink();
+        Clink &operator=(const Clink &other);
+
         void push_back(int val);
         void push_front(int val);
         void remove(int val);
         void removeAll(int val);
         bool find(int val) const;
         void show() const;
+
     private:
         Node* dummy_;
     };
@@ -62,14 +70,18 @@ namespace doubly {
     class DoubleLink {
     public:
         DoubleLink();
+        DoubleLink(const DoubleLink &other);
         ~DoubleLink();
+        DoubleLink &operator=(const DoubleLink &other);
+
         void push_back(int val);
         void push_front(int val);
         void show() const;
         void remove(int val);
         bool find(int val) const;
+
     private:
-        Node* head_;
+        Node* dummy_;
     };
 
     void testDoubleLink();

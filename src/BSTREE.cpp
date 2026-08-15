@@ -2,6 +2,10 @@
 
 BSTREE::BSTREE():root_(nullptr){}
 
+BSTREE::BSTREE(const int& val) {
+    root_ = new Node(val);
+}
+
 BSTREE::~BSTREE() { destroy(root_); }
 
 int BSTREE::high() {
@@ -127,7 +131,7 @@ bool BSTREE::n_query(const int& val) {
 
 void BSTREE::preorder() {
     preorder(root_);
-    std::cout << std::endl;
+    std::cout << '\n';
 }
 
 void BSTREE::preorder(Node* node) {
@@ -140,7 +144,7 @@ void BSTREE::preorder(Node* node) {
 
 void BSTREE::inorder() {
     inorder(root_);
-    std::cout << std::endl;
+    std::cout << '\n';
 }
 
 void BSTREE::inorder(Node* node) {
@@ -153,7 +157,7 @@ void BSTREE::inorder(Node* node) {
 
 void BSTREE::postorder() {
     postorder(root_);
-    std::cout << std::endl;
+    std::cout << '\n';
 }
 
 void BSTREE::postorder(Node* node) {
@@ -262,7 +266,7 @@ void BSTREE::n_preorder() {
             s.emplace(top->left_);
         }
     }
-    std::cout << std::endl;
+    std::cout << '\n';
 }
 
 void BSTREE::n_inorder() {
@@ -282,7 +286,7 @@ void BSTREE::n_inorder() {
             cur = top->right_;
         }
     }
-    std::cout << std::endl;
+    std::cout << '\n';
 }
 
 void BSTREE::n_postorder() {
@@ -305,7 +309,7 @@ void BSTREE::n_postorder() {
         std::cout << s2.top()->data_ << " ";
         s2.pop();
     }
-    std::cout << std::endl;
+    std::cout << '\n';
 }
 
 void BSTREE::levelorder() {
@@ -313,7 +317,7 @@ void BSTREE::levelorder() {
     for (int i = 0; i < h; i++) {
         levelorder(root_, i);
     }
-    std::cout << std::endl;
+    std::cout << '\n';
 }
 
 void BSTREE::levelorder(Node* node, int i) {
@@ -343,7 +347,7 @@ void BSTREE::n_levelorder() {
             q.emplace(front->right_);
         }
     }
-    std::cout << std::endl;
+    std::cout << '\n';
 }
 
 void BSTREE::destroy(Node* node) {

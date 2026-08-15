@@ -3,15 +3,20 @@
 class SeqStack {
 public:
     SeqStack(int size = 10);
+    SeqStack(const SeqStack &other);
     ~SeqStack();
+    SeqStack &operator=(const SeqStack &other);
+
 public:
     void push(int val);
     void pop();
     int top() const;
     bool empty() const;
     int size() const;
+
 private:
     void expand(int size);
+
 private:
     int* mpStack;
     int mtop;
@@ -21,12 +26,16 @@ private:
 class LinkStack {
 public:
     LinkStack();
+    LinkStack(const LinkStack &other);
     ~LinkStack();
+    LinkStack &operator=(const LinkStack &other);
+
     void push(int val);
     void pop();
     int top() const;
     bool empty() const;
     int size() const;
+
 private:
     struct Node {
         Node(int data = 0)
@@ -37,7 +46,7 @@ private:
         Node* next_;
     };
 
-    Node* head_;
+    Node* dummy_;
     int size_;
 };
 

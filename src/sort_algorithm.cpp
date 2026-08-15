@@ -9,9 +9,7 @@ void bubble_sort(int arr[], int size) {           // 最好O(n)  最坏O(n^2)  O
         bool swapped = false;
         for (int j = 0; j < size - i - 1; j++) {
             if (arr[j] > arr[j + 1]) {
-                int tmp = arr[j];
-                arr[j] = arr[j + 1];
-                arr[j + 1] = tmp;
+                std::swap(arr[j], arr[j + 1]);
                 swapped = true;
             }
         }
@@ -28,9 +26,7 @@ void select_sort(int arr[], int size) {            // 最好O(n^2)  最坏O(n^2)
             }
         }
         if (min != i) {
-            int tmp = arr[i];
-            arr[i] = arr[min];
-            arr[min] = tmp;
+            std::swap(arr[i], arr[min]);
         }
     }
 }

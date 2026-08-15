@@ -23,7 +23,7 @@ int main(){
     // testDigraph();
     // testWeightedGraph();
     // testDSU_size();
-    testKruskal();
+    // testKruskal();
 
     return 0;
 }

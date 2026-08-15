@@ -9,7 +9,10 @@ class BSTREE
 {
 public:
     BSTREE();
+    BSTREE(const int &val);
+    BSTREE(const BSTREE &other) = delete;
     ~BSTREE();
+    BSTREE &operator=(const BSTREE &other) = delete;
 
     int high();
     int number();

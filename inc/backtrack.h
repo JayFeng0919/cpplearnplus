@@ -2,6 +2,7 @@
 #include<iostream>
 #include<vector>
 #include<string>
+#include<cstdint>
 
 // 子集  LeetCode 78
 class Subsets{
@@ -10,7 +11,6 @@ private:
 public:    
     std::vector<std::vector<int>> subsets(std::vector<int> &nums);
     void test();
-
 };
 
 // 组合  LeetCode 77
@@ -27,7 +27,7 @@ public:
 class Permute{
 private:
     void backtrack(std::vector<std::vector<int>> &res, std::vector<int> &path,
-                   std::vector<bool> &used, std::vector<int> &nums, int length);
+                   std::vector<uint8_t> &used, std::vector<int> &nums, int length);
 public:    
     std::vector<std::vector<int>> permute(std::vector<int> &nums);
     void test();

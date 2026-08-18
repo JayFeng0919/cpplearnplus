@@ -14,18 +14,30 @@ Array::Array(const Array &other)
     : mCap(other.mCap)
     , mCur(other.mCur)
 {
-    mpArr = new int(mCap);
+    mpArr = new int[mCap];
     for (int i = 0; i < mCur; i++) {
         mpArr[i] = other.mpArr[i];
     }
 }
 
-Array::~Array() {
+Array::Array(Array &&other) noexcept
+    : mpArr(other.mpArr)
+    , mCap(other.mCap)
+    , mCur(other.mCur)
+{
+    other.mpArr = nullptr;
+    other.mCap = 0;
+    other.mCur = 0;
+}
+
+Array::~Array()
+{
     delete[] mpArr;
     mpArr = nullptr;
 }
 
-Array& Array::operator=(const Array &other) {
+Array& Array::operator=(const Array &other)
+{
     if (this == &other)
         return *this;
 
@@ -37,6 +49,20 @@ Array& Array::operator=(const Array &other) {
     mCap = other.mCap;
     mCur = other.mCur;
     mpArr = newArr;
+    return *this;
+}
+
+Array &Array::operator=(Array &&other) noexcept
+{
+    if (this == &other)
+        return *this;
+    delete[] mpArr;
+    mpArr = other.mpArr;
+    mCap = other.mCap;
+    mCur = other.mCur;
+    other.mpArr = nullptr;
+    other.mCap = 0;
+    other.mCur = 0;
     return *this;
 }
 
@@ -113,4 +139,13 @@ void testvector() {
         arr.erase(pos);
         arr.show();
     }
+
+    Array arr_copy = arr;
+    arr_copy.show();
+    arr.show();
+
+    Array arr_move(std::move(arr));
+    arr_move.show();
+    arr.show();
+    arr_copy.show();
 }

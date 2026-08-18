@@ -16,6 +16,16 @@ SeqStack::SeqStack(const SeqStack& other)
     memcpy(mpStack, other.mpStack, sizeof(int) * other.mtop);
 }
 
+SeqStack::SeqStack(SeqStack &&other) noexcept
+    : mcap(other.mcap)
+    , mtop(other.mtop)
+    , mpStack(other.mpStack)
+{
+    other.mcap = 0;
+    other.mtop = 0;
+    other.mpStack = nullptr;
+}
+
 SeqStack::~SeqStack() {
     delete[] mpStack;
     mpStack = nullptr;
@@ -29,6 +39,20 @@ SeqStack& SeqStack::operator=(const SeqStack &other) {
     mtop = other.mtop;
     mpStack = new int[mcap];
     memcpy(mpStack, other.mpStack, sizeof(int) * other.mtop);
+}
+
+SeqStack &SeqStack::operator=(SeqStack &&other) noexcept
+{
+    if (this == &other)
+        return *this;
+    delete[] mpStack;
+    mpStack = other.mpStack;
+    mcap = other.mcap;
+    mtop = other.mtop;
+    other.mpStack = nullptr;
+    other.mcap = 0;
+    other.mtop = 0;
+    return *this;
 }
 
 void SeqStack::push(int val) {
@@ -82,6 +106,14 @@ LinkStack::LinkStack(const LinkStack& other) {
     }
 }
 
+LinkStack::LinkStack(LinkStack &&other) noexcept
+    : dummy_(other.dummy_)
+    , size_(other.size_)
+{
+    other.dummy_ = nullptr;
+    other.size_ = 0;
+}
+
 LinkStack::~LinkStack() {
     Node* p = dummy_;
     while (p) {
@@ -110,6 +142,23 @@ LinkStack& LinkStack::operator= (const LinkStack& other) {
         p = p->next_;
         cur = cur->next_;
     }
+    return *this;
+}
+
+LinkStack &LinkStack::operator=(LinkStack &&other) noexcept
+{
+    if (this == &other)
+        return *this;
+    Node *p = dummy_;
+    while (p) {
+        dummy_ = dummy_->next_;
+        delete p;
+        p = dummy_;
+    }
+    dummy_ = other.dummy_;
+    size_ = other.size_;
+    other.dummy_ = nullptr;
+    other.size_ = 0;
     return *this;
 }
 

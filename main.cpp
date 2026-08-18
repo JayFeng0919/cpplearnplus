@@ -1,7 +1,7 @@
 #include <iostream>
 #include "main.h"
 
-int main(){
+int main() {
     // testvector();
     // singly::testClink();
     // singly::testCircleLink();

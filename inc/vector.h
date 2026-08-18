@@ -4,8 +4,10 @@ class Array {
 public:
     Array(int size = 10);
     Array(const Array &other);
+    Array(Array &&other) noexcept;
     ~Array();
     Array &operator=(const Array &other);
+    Array &operator=(Array &&other) noexcept;
 
     void push_back(int val);
     void pop_back();

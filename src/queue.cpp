@@ -2,7 +2,7 @@
 #include"queue.h"
 
 CircleQueue::CircleQueue(int size)
-    :cap_(size)
+    : cap_(size)
     , front_(0)
     , rear_(0)
 {
@@ -10,7 +10,7 @@ CircleQueue::CircleQueue(int size)
 }
 
 CircleQueue::CircleQueue(const CircleQueue& other)
-    :cap_(other.cap_)
+    : cap_(other.cap_)
     , front_(other.front_)
     , rear_(other.rear_)
 {
@@ -18,6 +18,18 @@ CircleQueue::CircleQueue(const CircleQueue& other)
     for (int i = 0; i < size(); i++) {
         pQue_[(front_ + i) % cap_] = other.pQue_[(other.front_ + i) % other.cap_];
     }
+}
+
+CircleQueue::CircleQueue(CircleQueue &&other) noexcept
+    : pQue_(other.pQue_)
+    , cap_(other.cap_)
+    , front_(other.front_)
+    , rear_(other.rear_)
+{
+    other.pQue_ = nullptr;
+    other.cap_ = 0;
+    other.front_ = 0;
+    other.rear_ = 0;
 }
 
 CircleQueue::~CircleQueue() {
@@ -36,6 +48,22 @@ CircleQueue& CircleQueue::operator=(const CircleQueue& other) {
             pQue_[(front_ + i) % cap_] = other.pQue_[(other.front_ + i) % other.cap_];
         }
     }
+    return *this;
+}
+
+CircleQueue &CircleQueue::operator=(CircleQueue &&other) noexcept
+{
+    if (this == &other)
+        return *this;
+    delete[] pQue_;
+    pQue_ = other.pQue_;
+    cap_ = other.cap_;
+    front_ = other.front_;
+    rear_ = other.rear_;
+    other.pQue_ = nullptr;
+    other.cap_ = 0;
+    other.front_ = 0;
+    other.rear_ = 0;
     return *this;
 }
 
@@ -108,6 +136,14 @@ LinkQueue::LinkQueue(const LinkQueue &other)
     }
 }
 
+LinkQueue::LinkQueue(LinkQueue &&other) noexcept
+    : dummy_(other.dummy_)
+    , size_(other.size_)
+{
+    other.dummy_ = nullptr;
+    other.size_ = 0;
+}
+
 LinkQueue::~LinkQueue() {
     Node* p = dummy_->next_;
     while (p != dummy_) {
@@ -136,6 +172,24 @@ LinkQueue& LinkQueue::operator=(const LinkQueue &other) {
             p = p->next_;
         }
     }
+    return *this;
+}
+
+LinkQueue &LinkQueue::operator=(LinkQueue &&other) noexcept
+{
+    if (this == &other)
+        return *this;
+    Node *p = dummy_->next_;
+    while (p != dummy_) {
+        Node *temp = p;
+        p = p->next_;
+        delete temp;
+    }
+    delete dummy_;
+    dummy_ = other.dummy_;
+    size_ = other.size_;
+    other.dummy_ = nullptr;
+    other.size_ = 0;
     return *this;
 }
 

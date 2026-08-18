@@ -4,8 +4,10 @@ class SeqStack {
 public:
     SeqStack(int size = 10);
     SeqStack(const SeqStack &other);
+    SeqStack(SeqStack &&other) noexcept;
     ~SeqStack();
     SeqStack &operator=(const SeqStack &other);
+    SeqStack &operator=(SeqStack &&other) noexcept;
 
 public:
     void push(int val);
@@ -27,8 +29,10 @@ class LinkStack {
 public:
     LinkStack();
     LinkStack(const LinkStack &other);
+    LinkStack(LinkStack &&other) noexcept;
     ~LinkStack();
     LinkStack &operator=(const LinkStack &other);
+    LinkStack &operator=(LinkStack &&other) noexcept;
 
     void push(int val);
     void pop();

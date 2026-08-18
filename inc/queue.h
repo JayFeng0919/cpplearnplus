@@ -4,8 +4,10 @@ class CircleQueue {
 public:
     CircleQueue(int size = 10);
     CircleQueue(const CircleQueue &other);
+    CircleQueue(CircleQueue &&other) noexcept;
     ~CircleQueue();
     CircleQueue &operator=(const CircleQueue &other);
+    CircleQueue &operator=(CircleQueue &&other) noexcept;
 
 public:
     void push(int val);
@@ -29,8 +31,10 @@ class LinkQueue {
 public:
     LinkQueue();
     LinkQueue(const LinkQueue& other);
+    LinkQueue(LinkQueue &&other) noexcept;
     ~LinkQueue();
     LinkQueue &operator=(const LinkQueue &other);
+    LinkQueue &operator=(LinkQueue &&other) noexcept;
 
 public:
     void push(int val);

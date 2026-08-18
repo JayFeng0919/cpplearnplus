@@ -19,8 +19,10 @@ namespace singly {
     public:
         Clink();
         Clink(const Clink &other);
+        Clink(Clink &&other) noexcept;
         ~Clink();
         Clink &operator=(const Clink &other);
+        Clink &operator=(Clink &&other) noexcept;
 
         void push_back(int val);
         void push_front(int val);
@@ -71,8 +73,10 @@ namespace doubly {
     public:
         DoubleLink();
         DoubleLink(const DoubleLink &other);
+        DoubleLink(DoubleLink &&other) noexcept;
         ~DoubleLink();
         DoubleLink &operator=(const DoubleLink &other);
+        DoubleLink &operator=(DoubleLink &&other) noexcept;
 
         void push_back(int val);
         void push_front(int val);

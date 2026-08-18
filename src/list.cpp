@@ -19,6 +19,12 @@ singly::Clink::Clink(const Clink& other) {
     }
 }
 
+singly::Clink::Clink(Clink &&other) noexcept
+    : dummy_(other.dummy_)
+{
+    other.dummy_ = nullptr;
+}
+
 singly::Clink::~Clink() {
     Node *p = dummy_;
     while (p) {
@@ -48,6 +54,21 @@ singly::Clink& singly::Clink::operator=(const Clink& other) {
         p = p->next_;
         cur = cur->next_;
     }
+    return *this;
+}
+
+singly::Clink& singly::Clink::operator=(Clink &&other) noexcept
+{
+    if (this == &other)
+        return *this;
+    Node *p = dummy_;
+    while (p) {
+        dummy_ = dummy_->next_;
+        delete p;
+        p = dummy_;
+    }
+    dummy_ = other.dummy_;
+    other.dummy_ = nullptr;
     return *this;
 }
 
@@ -318,6 +339,12 @@ doubly::DoubleLink::DoubleLink(const DoubleLink& other) {
     }
 }
 
+doubly::DoubleLink::DoubleLink(DoubleLink &&other) noexcept
+    : dummy_(other.dummy_)
+{
+    other.dummy_ = nullptr;
+}
+
 doubly::DoubleLink::~DoubleLink() {
     Node *p = dummy_;
     while (p) {
@@ -348,6 +375,21 @@ doubly::DoubleLink& doubly::DoubleLink::operator=(const DoubleLink &other) {
         cur = cur->next_;
         p = p->next_;
     }
+    return *this;
+}
+
+doubly::DoubleLink &doubly::DoubleLink::operator=(DoubleLink &&other) noexcept
+{
+    if (this == &other)
+        return *this;
+    Node *p = dummy_;
+    while (p) {
+        dummy_ = dummy_->next_;
+        delete p;
+        p = dummy_;
+    }
+    dummy_ = other.dummy_;
+    other.dummy_ = nullptr;
     return *this;
 }
 
